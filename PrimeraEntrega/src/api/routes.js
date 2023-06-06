@@ -22,7 +22,7 @@ import getProducts from "./carts/getProducts.js";
 import addProductToCart from "./carts/addProductToCart.js";
 
 router.post("/carts", saveCart);
-router.get("/carts/:cid/products", getProducts);
-router.post("/carts/:cid/products/:pid", addProductToCart);
+router.get("/carts/:cid", getProducts);
+router.post("/carts/:cid/product/:pid", addProductToCart);
 
 export default router;
