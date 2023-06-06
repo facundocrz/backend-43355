@@ -1,0 +1,41 @@
+[
+    {
+      "title": "i9-10900K",
+      "description": "",
+      "price": 120000,
+      "thumbnails": [
+        "https://firebasestorage.googleapis.com/v0/b/sigmah4rd.appspot.com/o/i9-10900k.jpg?alt=media&token=b75ea44a-fcc0-4e2c-b62b-e8cd14ad0508"
+      ],
+      "code": "i1",
+      "status": true,
+      "stock": 10,
+      "category": "Procesadores",
+      "id": 1
+    },
+    {
+      "title": "i9-11900K",
+      "description": "",
+      "price": 150000,
+      "thumbnails": [
+        "https://firebasestorage.googleapis.com/v0/b/sigmah4rd.appspot.com/o/i9-11900k.jpg?alt=media&token=de50495b-a572-4065-ba29-e3a695e60357"
+      ],
+      "code": "i2",
+      "status": true,
+      "stock": 20,
+      "category": "Procesadores",
+      "id": 2
+    },
+    {
+      "title": "i9-12900K",
+      "description": "",
+      "price": 180000,
+      "thumbnails": [
+        "https://firebasestorage.googleapis.com/v0/b/sigmah4rd.appspot.com/o/i9-12900k.jpg?alt=media&token=a1b14b1c-7b45-44c1-aa57-9e8f77c59fbb"
+      ],
+      "code": "i3",
+      "status": true,
+      "stock": 30,
+      "category": "Procesadores",
+      "id": 3
+    }
+]
