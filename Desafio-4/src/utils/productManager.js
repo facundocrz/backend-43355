@@ -30,6 +30,7 @@ class ProductManager extends BaseManager {
 
     const newProduct = { ...product, id };
     await this.saveData([...products, newProduct]);
+    return newProduct;
   }
 }
 

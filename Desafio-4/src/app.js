@@ -39,6 +39,10 @@ io.on("connection", (socket) => {
   socket.on("add Product", (msg) => {
     io.emit("add Product", msg);
   });
+  socket.on("delete Product", (msg) => {
+    console.log("funciona");
+    io.emit("delete Product", msg);
+  });
 });
 
 export { io };
