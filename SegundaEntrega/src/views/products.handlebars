@@ -1,0 +1,20 @@
+<h1>Todos los productos</h1>
+
+{{#each products}}
+    <div class="product">
+
+    </div>
+        <h2>{{title}}</h2>
+        <p>{{description}}</p>
+        <p>Price: {{price}}</p>
+        <p>{{category}}</p>
+        
+    </div>
+{{/each}}
+{{#if hasPrevPage}}
+  <a href="{{prevLink}}">Previous Page</a>
+{{/if}}
+{{#if hasNextPage}}
+  <a href="{{nextLink}}">Next Page</a>
+{{/if}}
+<script src="/js/products.js"></script>
