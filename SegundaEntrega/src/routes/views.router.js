@@ -15,10 +15,15 @@ router.get("/chat", (req, res) => {
 
 router.get("/products", async (req, res) => {
   try {
-    const { limit = 10, page = 1, sort, query } = req.query;
-    const apiResponse = await fetch(`http://tu-api.com/api/products?limit=${limit}&page=${page}&sort=${sort}&query=${query}`);
-    const productsData = await apiResponse.json();
+    const { limit = 10, page = 1, sort = "asc", query } = req.query;
+    let apiUrl = `http://localhost:8080/api/products?limit=${limit}&page=${page}&sort=${sort}`;
+    
+    if (query) {
+      apiUrl += `&query=${query}`;
+    }
 
+    const apiResponse = await fetch(apiUrl);
+    const productsData = await apiResponse.json();
     res.render('products', {
       products: productsData.payload,
       totalPages: productsData.totalPages,
@@ -38,9 +43,10 @@ router.get("/products", async (req, res) => {
 router.get("/carts/:cid" , async (req, res) => {
   try {
     const cartId = req.params.cid;
-    const apiResponse = await fetch(`api/carts/${cartId}`);
-    const products = await apiResponse.json();
-    res.render('cart', { products });
+    const apiResponse = await fetch(`http://localhost:8080/api/carts/${cartId}`);
+    const cart = await apiResponse.json()
+    console.log(cart)
+    res.render('cart', { cart });
   } catch (error) {
     res.render('error', { error });
   }

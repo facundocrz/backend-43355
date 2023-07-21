@@ -5,6 +5,8 @@ const router = express.Router();
 import saveCart from "../api/carts/saveCart.js";
 import getProducts from "../api/carts/getProducts.js";
 import addProductToCart from "../api/carts/addProductToCart.js";
+import updateCart from "../api/carts/updateCart.js"
+import updateProductQuantity from "../api/carts/updateProductQuantity.js";
 import deleteProduct from "../api/carts/deleteProduct.js"
 import deleteAllProducts from "../api/carts/deleteAllProducts.js"
 

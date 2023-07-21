@@ -2,31 +2,20 @@ import MongoDBManager from "../manager/mongoDBManager.js";
 import cartsModel from "../../models/carts.js";
 import ProductMongoDBManager from "../products/productMongoDBManager.js";
 
-
 class CartMongoDBManager extends MongoDBManager {
-
   constructor() {
     super(cartsModel);
     this.productManager = new ProductMongoDBManager();
-
   }
 
   async addCart(cart) {
-    let id;
-    const carts = await this.loadData();
-    if (carts.length === 0) {
-      id = 1;
-    } else {
-      id = carts[carts.length - 1].id + 1;
-    }
-    const newCart = { ...cart, id};
-    await this.saveData(newCart);
+    await this.saveData(cart);
   }
 
   async getProducts(cartId) {
     try {
-      const cart = await this.getDataById(cartId).populate('products.id');
-      return cart.products;
+      const cart = await this.collection.findById(cartId).populate("products._id");
+      return cart;
     } catch (error) {
       throw new Error(`Error getting products from cart: ${error}`);
     }
@@ -35,14 +24,17 @@ class CartMongoDBManager extends MongoDBManager {
   async addProductToCart(cartId, productId) {
     try {
       const cart = await this.getDataById(cartId);
-      console.log(cart);
+      const product = await this.productManager.getDataById(productId);
+      if (!product) {
+        throw new Error(`Product with id ${productId} not found`);
+      }
       const existingProduct = cart.products.find(
-        (p) => p.productId === productId
+        (p) => p._id === product._id
       );
       if (existingProduct) {
         existingProduct.quantity++;
       } else {
-        cart.products.push({ productId, quantity: 1 });
+        cart.products.push({ _id:product._id, quantity: 1 });
       }
       await this.updateById(cartId, cart);
     } catch (error) {
@@ -53,7 +45,9 @@ class CartMongoDBManager extends MongoDBManager {
   async deleteProductFromCart(cartId, productId) {
     try {
       const cart = await this.getDataById(cartId);
-      const productIndex = cart.products.findIndex((p) => p.productId === productId);
+      const productIndex = cart.products.findIndex(
+        (p) => p._id === productId
+      );
       if (productIndex !== -1) {
         cart.products.splice(productIndex, 1);
         await this.updateById(cartId, cart);
@@ -63,7 +57,7 @@ class CartMongoDBManager extends MongoDBManager {
     } catch (error) {
       throw new Error(`Error removing product from cart: ${error}`);
     }
-  } 
+  }
 
   async deleteAllProductsFromCart(cartId) {
     try {
@@ -72,6 +66,30 @@ class CartMongoDBManager extends MongoDBManager {
       await this.updateById(cartId, cart);
     } catch (error) {
       throw new Error(`Error removing products from cart: ${error}`);
+    }
+  }
+
+  async updateProductQuantity(cartId, productId, quantity) {
+    try {
+      const cart = await this.getDataById(cartId);
+      const product = cart.products.find((p) => p.productId === productId);
+      if (!product) {
+        throw new Error(`Product with id ${productId} not found in cart`);
+      }
+      product.quantity = quantity;
+      await this.updateById(cartId, cart);
+    } catch (error) {
+      throw new Error(`Error updating product quantity: ${error}`);
+    }
+  }
+
+  async updateCartProducts(cartId, products) {
+    try {
+      const cart = await this.getDataById(cartId);
+      cart.products = products;
+      await this.updateById(cartId, cart);
+    } catch (error) {
+      throw new Error(`Error updating cart products: ${error}`);
     }
   }
 }

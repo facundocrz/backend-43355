@@ -2,7 +2,7 @@ import { productsDao as productManager } from "../../dao/index.js";
 
 export default async (req, res) => {
   try {
-    const product = await productManager.getDataById(parseInt(req.params.pid));
+    const product = await productManager.getDataById(req.params.pid);
     product
       ? res.status(200).json(product)
       : res.status(404).json({ error: "Product not found" });

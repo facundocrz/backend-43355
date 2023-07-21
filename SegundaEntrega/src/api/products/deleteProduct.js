@@ -1,7 +1,7 @@
 import { productsDao as productManager } from "../../dao/index.js";
 
 export default async (req, res) => {
-  const productId = parseInt(req.params.pid);
+  const productId = req.params.pid;
   try {
     await productManager.deleteById(productId);
     res.status(200).json({ message: "Product deleted successfully" });

@@ -2,7 +2,7 @@ import { cartsDao as cartManager } from "../../dao/index.js";
 
 export default async (req, res) => {
   try {
-    const cartId = parseInt(req.params.cid);
+    const cartId = req.params.cid;
     const cart = await cartManager.getCart(cartId);
     if (!cart) {
       return res.status(404).json({ error: "Cart not found" });

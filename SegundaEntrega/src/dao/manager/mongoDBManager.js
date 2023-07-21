@@ -28,7 +28,7 @@ class MongoDBManager {
     
       async getDataById(id) {
         try {
-            const data = await this.collection.findOne({id}).lean();
+            const data = await this.collection.findById(id).lean();
             if (!data) {
                 throw new Error(`Item with id ${id} not found`);
             }
@@ -40,7 +40,7 @@ class MongoDBManager {
     
       async updateById(id, updates) {
         try {
-            const data = await this.collection.findOneAndUpdate({id}, updates, { new: true})
+            const data = await this.collection.findOneAndUpdate({_id : id}, updates, { new: true})
             if (!data) {
                 throw new Error(`Item with id ${id} not found`);
             }

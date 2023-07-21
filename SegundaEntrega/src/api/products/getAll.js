@@ -1,24 +1,27 @@
 import productModel from "../../models/products.js";
 
 export default async (req, res) => {
-  const { limit = 10, page = 1, sort, query } = req.query;
+  const { limit = 10, page = 1, sort = "asc" , query } = req.query;
   const options = {
     limit: parseInt(limit),
     page: parseInt(page),
     sort: sort === 'asc' || sort === 'desc' ? { price: sort } : null,
   };
+  
   const queryOptions = query ? { category: query } : {};
 
   try {
-    const products = await productModel.paginate(options, queryOptions);
+    const products = await productModel.paginate(queryOptions, options);
     const totalPages = products.totalPages;
     const prevPage = products.prevPage || null;
     const nextPage = products.nextPage || null;
     const currentPage = products.page || 1;
     const hasPrevPage = products.hasPrevPage;
     const hasNextPage = products.hasNextPage;
-    const prevLink = hasPrevPage ? `/products?limit=${limit}&page=${prevPage}&sort=${sort}&query=${query}` : null;
-    const nextLink = hasNextPage ? `/products?limit=${limit}&page=${nextPage}&sort=${sort}&query=${query}` : null;
+    const prevLink = hasPrevPage ? `/products?limit=${limit}&page=${prevPage}&sort=${sort}` : null;
+    const nextLink = hasNextPage ? `/products?limit=${limit}&page=${nextPage}&sort=${sort}` : null;
+    if (prevLink && query) prevLink += `&query=${query}`;
+    if (nextLink && query) nextLink += `&query=${query}`;
 
     res.status(200).json({
       status: 'success',

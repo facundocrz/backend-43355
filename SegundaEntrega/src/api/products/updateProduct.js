@@ -1,7 +1,7 @@
 import { productsDao as productManager } from "../../dao/index.js";
 
 export default async (req, res) => {
-  const productId = parseInt(req.params.pid);
+  const productId = req.params.pid;
   const updatedProduct = req.body;
   try {
     await productManager.updateById(productId, updatedProduct);
