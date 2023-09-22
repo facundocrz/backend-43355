@@ -2,7 +2,7 @@ import { productServices } from "../services/index.js";
 import productModel from "../models/products.model.js";
 import { io } from "../app.js";
 import CustomErrors from "../utils/errors/custom.errors.js";
-import {generateProductErrorInfo} from "../utils/errors/info.errors.js";
+import { generateProductErrorInfo } from "../utils/errors/info.errors.js";
 import enumErrors from "../utils/errors/enum.errors.js";
 
 const getAll = async (req, res) => {
@@ -126,14 +126,15 @@ const deleteProduct = async (req, res) => {
   const productId = req.params.pid;
   try {
     const product = await productServices.getProduct(productId);
-    if (req.user.role === "admin" || req.user.email === product.owner) {
+    user = req.user;
+    if (user.role === "admin" || user.email === product.owner) {
       productServices.deleteProduct(productId);
       res.status(200).json({ message: "Product deleted successfully" });
     } else {
       res.status(403).json({ error: "Unauthorized" });
     }
   } catch (error) {
-    req.logger.error(error.message)
+    req.logger.error(error.message);
     res
       .status(400)
       .json({ error: `Failed to delete product: ${error.message}` });
