@@ -130,7 +130,7 @@ const deleteProduct = async (req, res) => {
       productServices.deleteProduct(productId);
       res.status(200).json({ message: "Product deleted successfully" });
     } else {
-      res.status(401).json({ error: "Unauthorized" });
+      res.status(403).json({ error: "Unauthorized" });
     }
   } catch (error) {
     req.logger.error(error.message)
