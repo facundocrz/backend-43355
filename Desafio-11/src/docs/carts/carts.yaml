@@ -1,0 +1,246 @@
+openapi: "3.0.1"
+info:
+  version: 1.0.0
+  title: Carts API
+  description: Carts API Information
+
+paths:
+  /api/carts:
+    post:
+      summary: Create a new cart
+      tags:
+        - carts
+      description:
+        endpoint to create a new cart in the database
+      responses:
+        200:
+          description: Cart created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Bad Request
+
+  /api/carts/{cid}:
+    get:
+      summary: Get cart products
+      tags:
+        - carts
+      description:
+        endpoint to get all cart product by cart id
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: cart id
+      responses:
+        200:
+          description: Cart found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Cart not found
+    put:
+      summary: Update cart 
+      tags:
+        - carts
+      description:
+        endpoint to update cart products by cart id
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: cart id
+      requestBody:
+        description: Cart objects to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateCart'
+      responses:
+        200:
+          description: Cart updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Cart not found
+    delete:
+      summary: Delete cart
+      tags:
+        - carts
+      description:
+        endpoint to delete a cart by cart id
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: cart id
+      responses:
+        200:
+          description: Cart deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Cart not found
+
+
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Add product to cart (required authentication)
+      tags:
+        - carts
+      description:
+        endpoint to add a product to a cart by cart id and product id (required authentication)
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: cart id
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: product id
+      responses:
+        200:
+          description: Product added to cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Cart not found
+    put:
+      summary: Update product quantity in cart (required authentication)
+      tags:
+        - carts
+      description:
+        endpoint to update a product quantity in a cart by cart id and product id (required authentication)
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: cart id
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: product id
+      responses:
+        200:
+          description: Product quantity updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Cart not found
+    delete:
+      summary: Delete product from cart
+      tags:
+        - carts
+      description:
+        endpoint to delete a product from a cart by cart id and product id
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: cart id
+        - in: path
+          name: pid
+          schema:
+            type: string
+          required: true
+          description: product id
+      responses:
+        200:
+          description: Product deleted from cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Cart not found
+      
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Purchase cart products (required authentication)
+      tags:
+        - carts
+      description:
+        endpoint to purchase cart products by cart id (required authentication)
+      parameters:
+        - in: path
+          name: cid
+          schema:
+            type: string
+          required: true
+          description: cart id
+      responses:
+        200:
+          description: Cart purchased
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Cart not found
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The auto-generated id of the cart
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: The auto-generated id of the product
+              quantity:
+                type: number
+                description: The product quantity
+  requestBodies:
+    updateCart:
+      type: object
+      required:
+        - products
+      properties:
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: The auto-generated id of the product
+              quantity:
+                type: number
+                description: The product quantity
