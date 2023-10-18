@@ -40,7 +40,7 @@ router.put("/premium/:uid", async (req, res) => {
 });
 
 router.post("/:uid/documents", documentUpload.array("documents"), uploadDocument);
-router.post("/:uid/documents", profileImageUpload.single("profileImage"), uploadProfileImage);
-router.post("/:uid/documents", productImageUpload.single("productImage"), uploadProductImage);
+router.post("/:uid/documents/profile", profileImageUpload.single("profileImage"), uploadProfileImage);
+router.post("/:uid/documents/product", productImageUpload.single("productImage"), uploadProductImage);
 
 export default router;
