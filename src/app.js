@@ -40,13 +40,6 @@ initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-const hbs = handlebars.create({});
-hbs.handlebars.registerHelper('ifCond', function(v1, v2, options) {
-  if(v1 === v2) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
-});
 app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(process.cwd(), "src/views"));
 app.set("view engine", "handlebars");

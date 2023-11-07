@@ -1,5 +1,4 @@
 export default {
-    environment: environment,
     port: process.env.PORT,
     mongoUrl: process.env.MONGO_URL,
     fileSystemPath: process.env.FILESYSTEM_PATH,
