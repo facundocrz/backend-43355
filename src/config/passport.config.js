@@ -32,7 +32,7 @@ const initializePassport = () => {
           if (user) {
             return done(null, false, { message: "User already exists" });
           }
-          const newCart = await fetch("http://localhost:8080/api/carts", {
+          const newCart = await fetch("https://coder43355.onrender.com/api/carts", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -85,7 +85,7 @@ const initializePassport = () => {
       {
         clientID: "Iv1.a2b97e6454493b04",
         clientSecret: "403fd77397d35c85fc8596dda5c5a9b5c2e29237",
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        callbackURL: "https://coder43355.onrender.com/api/sessions/githubcallback",
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -94,7 +94,7 @@ const initializePassport = () => {
             email: profile._json.email,
           });
           if (!user) {
-            const newCart = await fetch("http://localhost:8080/api/carts", {
+            const newCart = await fetch("https://coder43355.onrender.com/api/carts", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

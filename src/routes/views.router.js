@@ -35,7 +35,7 @@ router.get("/chat", (req, res) => {
 router.get("/products", isAuthenticated, async (req, res) => {
   try {
     const { limit = 10, page = 1, sort = "asc", query } = req.query;
-    let apiUrl = `http://localhost:8080/api/products?limit=${limit}&page=${page}&sort=${sort}`;
+    let apiUrl = `https://coder43355.onrender.com/api/products?limit=${limit}&page=${page}&sort=${sort}`;
 
     if (query) {
       apiUrl += `&query=${query}`;
@@ -65,7 +65,7 @@ router.get("/carts/:cid", isAuthenticated, async (req, res) => {
   try {
     const cartId = req.params.cid;
     const apiResponse = await fetch(
-      `http://localhost:8080/api/carts/${cartId}`
+      `https://coder43355.onrender.com/api/carts/${cartId}`
     );
     const cart = await apiResponse.json();
     res.render("cart", { cart });
@@ -102,7 +102,7 @@ router.post("/reset-password", async (req, res) => {
       to: req.body.email,
       subject: `Restablecer contraseña`,
       text: "Haz clic en el siguiente enlace para restablecer tu contraseña:",
-      html: `<a href="http://localhost:${dotenv.port}/${token}">Restablecer Contraseña</a>`,
+      html: `<a href="https://coder43355.onrender.com/${token}">Restablecer Contraseña</a>`,
     });
   } catch (error) {
     res.render("error", { error });
@@ -160,7 +160,7 @@ router.post("change-password", async (req, res) => {
 
 router.get("/users", authorize(["ADMIN"]), async (req, res) => {
   try {
-    const apiResponse = await fetch("http://localhost:8080/api/users");
+    const apiResponse = await fetch("https://coder43355.onrender.com/api/users");
     const users = await apiResponse.json();
     res.render("users", { users });
   } catch (error) {
